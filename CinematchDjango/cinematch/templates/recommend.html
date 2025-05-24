@@ -1,0 +1,324 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recommend - Cinematch</title>
+  <link rel="icon" type="image/png" href="{% static 'favicon.png' %}" sizes="32x32">
+
+  <!-- Font Awesome & Select2 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <style>
+    body {
+      background: #0e0e0e;
+      font-family: 'Arial', sans-serif;
+      color: #fff;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    .recommend-header {
+      width: 100%;
+      background-color: #8c2e20;
+      padding: 30px 0;
+      text-align: center;
+      border-bottom: 1px solid #000;
+      position: relative;
+    }
+
+    .recommend-header h1, .recommend-header p {
+      color: #000;
+    }
+
+    .recommend-header h1 {
+      font-size: 24px;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+    }
+
+    .recommend-header p {
+      font-size: 12px;
+    }
+
+    .header-icons {
+      position: absolute;
+      top: 63px;
+      right: 40px;
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .header-icons a {
+      color: #000;
+      font-size: 1.6rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .header-icons a:hover {
+      color: #fff;
+    }
+
+    .recommend-main {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .movie-poster-list {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .movie-poster-card {
+      background: #181818;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+      padding: 10px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .movie-poster-card:hover {
+      transform: scale(1.05);
+    }
+
+    .movie-poster-card img {
+      width: 180px;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .movie-poster-card p {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .recommend-form-box {
+      background: #181818;
+      border: 1.5px solid #a8443d;
+      border-radius: 8px;
+      padding: 24px 32px;
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .recommend-form-box label {
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    /* Select2 Styling Fix */
+    .select2-container {
+      width: 100% !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+      border: 2px solid #a8443d !important;
+    }
+
+    .select2-selection--single {
+      background: #232323 !important;
+      border: 2px solid #a8443d !important;
+      border-radius: 6px !important;
+      height: 48px !important;
+      display: flex;
+      align-items: center;
+    }
+
+    .select2-selection__rendered {
+      color: #fff !important;
+      font-size: 16px !important;
+      padding-left: 12px !important;
+    }
+
+    .select2-selection__placeholder {
+      color: #bbb !important;
+    }
+
+    .select2-selection__arrow {
+      height: 48px !important;
+      top: 0 !important;
+      right: 10px;
+    }
+
+    .select2-dropdown {
+      background: #232323;
+      color: #fff;
+      border: 2px solid #a8443d !important;
+    }
+
+    .select2-results__option {
+      font-size: 16px;
+      padding: 10px 16px;
+    }
+
+    .select2-results__option--highlighted {
+      background: #a8443d !important;
+    }
+
+    .select2-results__option[aria-selected="true"] {
+      background: #8c2e20 !important;
+    }
+
+    .select2-search__field {
+      background: #181818 !important;
+      color: #fff !important;
+      border: 1.5px solid #a8443d !important;
+    }
+
+    .recommend-form-box button {
+      padding: 18px 24px;
+      background: linear-gradient(90deg, #a8443d 0%, #8c2e20 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 16px;
+      margin-top: 16px;
+      box-shadow: 0 2px 8px rgba(140,46,32,0.10);
+      letter-spacing: 1px;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .recommend-form-box button:hover {
+      background: linear-gradient(90deg, #8c2e20 0%, #a8443d 100%);
+      box-shadow: 0 4px 16px rgba(140,46,32,0.18);
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__clear {
+      display: none !important;
+    }
+
+    .heart-icon.liked {
+      color: #ff3c6f !important;
+      animation: pop 0.4s cubic-bezier(.36,1.56,.64,1) 1;
+    }
+    .heart-icon.filled {
+      color: #ff3c6f !important;
+    }
+    @keyframes pop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.5); }
+      100% { transform: scale(1); }
+    }
+    .movie-alert {
+      position: fixed;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #a8443d;
+      color: #fff;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      z-index: 9999;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .movie-alert.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="recommend-header">
+    <h1>CINEMATCH</h1>
+    <p>Movie Recommendation System</p>
+    <div class="header-icons">
+      <a href="/profile/"><i class="fa-solid fa-user"></i></a>
+      <a href="/recommend/"><i class="fa-solid fa-magnifying-glass"></i></a>
+      <a href="/logout/"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+    </div>
+  </div>
+
+  <div class="recommend-main">
+    <div class="movie-poster-list">
+      {% for poster_url in poster_urls %}
+      <div class="movie-poster-card">
+        <img src="{{ poster_url }}" alt="Movie Poster">
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="recommend-form-box">
+      <form method="POST">
+        {% csrf_token %}
+        <label for="movie">Select movie from dropdown</label>
+        <select name="movie" id="movie" required>
+          <option value="" {% if not selected_movie %}selected{% endif %}>Search movie</option>
+          {% for movie in movies %}
+          <option value="{{ movie }}" {% if selected_movie == movie %}selected{% endif %}>{{ movie }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit">Show Recommendations</button>
+      </form>
+    </div>
+  </div>
+
+  {% if recommendations %}
+  <div class="recommend-main" style="margin-top: 60px;">
+    <div class="movie-poster-list">
+      {% for rec in recommendations %}
+      <div class="movie-poster-card">
+        <img src="{{ rec.poster_url }}" alt="{{ rec.title }}">
+        <p>{{ rec.title }}</p>
+        <form method="POST" style="margin-top:8px;">
+          {% csrf_token %}
+          <input type="hidden" name="like_movie" value="{{ rec.title }}">
+          <input type="hidden" name="like_poster_url" value="{{ rec.poster_url }}">
+          <input type="hidden" name="selected_movie" value="{{ selected_movie }}">
+          <button type="submit" class="like-btn" style="background:none;border:none;cursor:pointer;">
+            <i class="fa-regular fa-heart heart-icon" style="color:#fff;font-size:1.5rem;"></i>
+          </button>
+        </form>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="movie-alert" id="movieAlert">Movie successfully added to your profile!</div>
+
+  <script>
+    $(document).ready(function () {
+      $('#movie').select2({
+        placeholder: "Search movie",
+        allowClear: true,
+        width: '100%',
+        minimumResultsForSearch: 0
+      });
+      // Like effect
+      $(document).on('click', 'button.like-btn .heart-icon', function(e) {
+        var $icon = $(this);
+        $icon.removeClass('fa-regular').addClass('fa-solid filled liked');
+        setTimeout(function() { $icon.removeClass('liked'); }, 1000);
+        // Show alert
+        var $alert = $('#movieAlert');
+        $alert.addClass('show');
+        setTimeout(function() { $alert.removeClass('show'); }, 1200);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile - Cinematch</title>
+  <link rel="icon" type="image/png" href="{% static 'favicon.png' %}" sizes="32x32">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+    }
+   
+    .recommend-header {
+      width: 100%;
+      background-color: #8c2e20;
+      padding: 30px 0;
+      text-align: center;
+      border-bottom: 1px solid #000;
+      position: relative;
+    }
+
+    .recommend-header h1, .recommend-header p {
+      color: #000;
+    }
+
+    .recommend-header h1 {
+      font-size: 24px;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+    }
+
+    .recommend-header p {
+      font-size: 12px;
+    }
+
+    .header-icons {
+      position: absolute;
+      top: 63px;
+      right: 40px;
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .header-icons a {
+      color: #000;
+      font-size: 1.6rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    } 
+
+    .header-icons a:hover {
+      color: #fff;
+    }
+    .profile-main {
+      margin-top: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .profile-main h2 {
+      font-family: 'Press Start 2P', 'Arial', monospace;
+      font-size: 2.5rem;
+      color: #fff;
+      margin-bottom: 30px;
+      border-bottom: 4px solid #a8443d;
+      display: inline-block;
+      padding-bottom: 8px;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 0 #000;
+    }
+    .movie-poster-list {
+      display: flex;
+      gap: 32px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .movie-poster-card {
+      background: #181818;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+      padding: 10px 10px 0 10px;
+      text-align: center;
+      border: 2px solid #a8443d;
+      width: 170px;
+      transition: transform 0.2s;
+    }
+    .movie-poster-card:hover {
+      transform: scale(1.05);
+    }
+    .movie-poster-card img {
+      width: 150px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .movie-poster-card .movie-title {
+      font-size: 1rem;
+      color: #fff;
+      font-weight: bold;
+      margin-bottom: 8px;
+      margin-top: 0;
+      letter-spacing: 1px;
+    }
+    .movie-poster-card .fav-icon {
+      color: #a8443d;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    .heart-icon.removed {
+      color: #bbb !important;
+      animation: pop 0.4s cubic-bezier(.36,1.56,.64,1) 1;
+    }
+    .movie-alert {
+      position: fixed;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #a8443d;
+      color: #fff;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      z-index: 9999;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .movie-alert.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="recommend-header">
+    <h1>CINEMATCH</h1>
+    <p>Movie Recommendation System</p>
+    <div class="header-icons">
+      <a href="/profile/"><i class="fa-solid fa-user"></i></a>
+      <a href="/recommend/"><i class="fa-solid fa-magnifying-glass"></i></a>
+      <a href="/logout/"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+    </div>
+  </div>
+  <div class="movie-alert" id="movieAlert">Movie removed</div>
+  <div class="profile-main">
+    <h2>My Movies</h2>
+    <div class="movie-poster-list">
+      {% for movie in favorite_movies %}
+      <div class="movie-poster-card">
+        <img src="{{ movie.poster_url }}" alt="{{ movie.title }}">
+        <div class="movie-title">{{ movie.title }}</div>
+        <form method="POST" style="margin-bottom:10px;">
+          {% csrf_token %}
+          <input type="hidden" name="remove_movie" value="{{ movie.title }}">
+          <button type="submit" class="remove-btn" style="background:none;border:none;cursor:pointer;">
+            <i class="fa-solid fa-heart heart-icon" style="color:#fff;font-size:1.5rem;"></i>
+          </button>
+        </form>
+      </div>
+      {% empty %}
+      <p style="color:#fff;">You have not liked any movies yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+  <script>
+    $(document).ready(function () {
+      // Remove effect
+      $(document).on('click', 'button.remove-btn .heart-icon', function(e) {
+        var $icon = $(this);
+        $icon.addClass('removed');
+        setTimeout(function() { $icon.removeClass('removed'); }, 1000);
+        // Show alert
+        var $alert = $('#movieAlert');
+        $alert.addClass('show');
+        setTimeout(function() { $alert.removeClass('show'); }, 1200);
+      });
+    });
+  </script>
+</body>
+</html> 

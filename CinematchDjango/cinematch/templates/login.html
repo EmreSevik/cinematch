@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Cinematch</title>
+  <link rel="icon" type="image/png" href="{% static 'favicon.png' %}" sizes="32x32">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      min-height: 100vh;
+      background-color: #0e0e0e;
+      font-family: 'Arial', sans-serif;
+      color: #fff;
+    }
+
+    .header {
+      width: 100%;
+      background-color: #8c2e20;
+      padding: 30px 0;
+      text-align: center;
+      border-bottom: 1px solid #000000;
+    }
+
+    .header h1 {
+      margin-bottom: 5px;
+      font-size: 24px;
+      letter-spacing: 2px;
+      color: #000000;
+    }
+
+    .header p {
+      font-size: 12px;
+      color: #000000;
+    }
+
+    .center-wrapper {
+      min-height: calc(100vh - 90px); /* header yüksekliğini çıkar */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-container {
+      padding: 30px;
+      background-color: #1c1c1c;
+      border: 1px solid #a8443d;
+      border-radius: 8px;
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      background-color: transparent;
+      border: 1px solid #a8443d;
+      color: white;
+      border-radius: 4px;
+    }
+
+    .login-container input::placeholder {
+      color: #bbb;
+      opacity: 1;
+      font-size: 0.98em;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: transparent;
+      border: 1px solid #a8443d;
+      color: #e74c3c;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .login-container button:hover {
+      background-color: #a8443d;
+      color: white;
+    }
+
+    .login-container a {
+      color: #e74c3c;
+      text-decoration: none;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    .login-container a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>CINEMATCH</h1>
+    <p>Movie Recommendation System</p>
+  </div>
+
+  <div class="center-wrapper">
+    <div class="login-container">
+      <h2>Login</h2>
+      <form method="POST">
+          {% csrf_token %}
+          <input type="text" name="username" placeholder="Username" required>
+          <input type="password" name="password" placeholder="Password" required>
+          <button type="submit">Login</button>
+      </form>
+      <a href="{% url 'register' %}">Don't have an account? Register</a>
+    </div>
+  </div>
+</body>
+</html>

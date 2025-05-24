@@ -1,0 +1,214 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cinematch - Movie Recommendation System</title>
+  <link rel="icon" type="image/png" href="{% static 'favicon.png' %}" sizes="32x32">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: #0e0e0e;
+      font-family: 'Arial', sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    .header {
+      width: 100%;
+      background-color: #8c2e20;
+      padding: 30px 0;
+      text-align: center;
+      border-bottom: 1px solid #000000;
+    }
+
+    .header h1 {
+      margin-bottom: 5px;
+      font-size: 24px;
+      letter-spacing: 2px;
+      color: #000000;
+    }
+
+    .header p {
+      font-size: 12px;
+      color: #000000;
+    }
+
+    .hero-section {
+      background: url("{% static 'css/arkaplan.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      position: relative;
+      width: 100%;
+    }
+
+    .content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 2;
+      width: 80%;
+      max-width: 800px;
+    }
+
+    .content h1 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: #000000;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .content p1 {
+      font-size: 16px;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .buttons {
+      margin-top: 30px;
+    }
+
+    .buttons button {
+      padding: 14px 28px;
+      margin: 0 10px;
+      border: none;
+      border-radius: 8px;
+      background-color: #c1493c;
+      color: rgb(0, 0, 0);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .buttons button:hover {
+      background-color: #a7382d;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .how-it-works {
+      background-color: #0f0f0f;
+      color: white;
+      padding: 80px 30px;
+      text-align: center;
+    }
+
+    .how-it-works h2 {
+      color: #ff624f;
+      font-size: 32px;
+      margin-bottom: 30px;
+    }
+
+    .how-it-works p {
+      max-width: 800px;
+      margin: 15px auto;
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin: 50px 0;
+    }
+
+    .step {
+      background-color: #181818;
+      border-radius: 10px;
+      padding: 30px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .step-number {
+      background-color: #c1493c;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-weight: bold;
+    }
+
+    .step h3 {
+      color: #ff624f;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+ 
+  <div class="header">
+    <h1>CINEMATCH</h1>
+    <p>Movie Recommendation System</p>
+  </div>
+
+  <section class="hero-section" id="hero">
+    <div class="overlay"></div>
+
+    <div class="content">
+      <h1>CINEMATCH</h1>
+      <p>Discover your next favorite movie with our personalized recommendation system</p>
+      <div class="buttons">
+        <button onclick="location.href='/login/'">Login</button>
+        <button onclick="location.href='/register/'">Register</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works" id="how-it-works">
+    <h2>How It Works</h2>
+    <p>Hello fellow movie enthusiast! 👋 Welcome to Cinematch!</p>
+    <p>Instead of wondering "What should I watch?", how about directly discovering amazing films?
+      Here are the simple steps explaining how we prepare special movie recommendations for you and how you can help us in this process:
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Create an Account</h3>
+        <p>Sign up to get personalized movie recommendations based on your preferences.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Select a Movie</h3>
+        <p>Choose a movie you've enjoyed watching from our extensive database.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Get Recommendations</h3>
+        <p>Our system will analyze your selection and suggest similar movies you might enjoy.</p>
+      </div>
+    </div>
+    <p style="color:#ff624f; font-weight: bold;">Start with a Film in Mind (or Embark on a Discovery!) 🎬</p>
+    <p>🍿🍿 Is there a movie you've watched before and loved? Or have you ever thought, "I wonder what I can find that's similar to this?" Don't hesitate, type the name of that movie into the search bar!</p>
+    <p>In the search results or on the movie's own page, you'll see not only the film you searched for but also other movie recommendations similar to it in terms of genre, atmosphere, subject, or cast.</p>
+    <p>Perhaps your new favorite will appear right before your eyes!🍿🍿</p>
+  </section>
+</body>
+</html>
+ 
