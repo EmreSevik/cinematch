@@ -1,0 +1,16 @@
+
+services:
+  - type: web
+    name: cinematch
+    env: python
+    region: frankfurt
+    plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn CinematchDjango.CinematchDjango_new.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: CinematchDjango.CinematchDjango_new.settings
+      - key: PYTHON_VERSION
+        value: 3.11
